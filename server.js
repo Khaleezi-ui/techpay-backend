@@ -23,13 +23,9 @@ app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 
 // ─── PostgreSQL ────────────────────────────────────────────────────────────────
 const pool = new Pool({
-  host: process.env.DB_HOST || "localhost",
-  port: process.env.DB_PORT || 5432,
-  database: process.env.DB_NAME || "techpay",
-  user: process.env.DB_USER || "postgres",
-  password: process.env.DB_PASSWORD || "secret",
+  connectionString: process.env.DATABASE_URL,
+  ssl: process.env.NODE_ENV === "production" ? { rejectUnauthorized: false } : false,
 });
-
 // ─── Multer (subida de imágenes locales) ──────────────────────────────────────
 // Para producción, reemplazar con Cloudinary o S3 (ver comentario al final)
 const uploadDir = path.join(__dirname, "uploads");
